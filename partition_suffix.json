@@ -1,0 +1,15 @@
+{
+  "strategy": "suffix",
+  "by_fraction": {
+    "0.5": {
+      "correct_mean_logp": -0.178546142578125,
+      "incorrect_mean_logp": -2.2277919224330356,
+      "separation": 2.0492457798549104
+    },
+    "0.75": {
+      "correct_mean_logp": -0.163922119140625,
+      "incorrect_mean_logp": -2.2337681361607142,
+      "separation": 2.0698460170200894
+    }
+  }
+}

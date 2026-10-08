@@ -1,0 +1,15 @@
+{
+  "strategy": "middle",
+  "by_fraction": {
+    "0.5": {
+      "correct_mean_logp": -0.946087646484375,
+      "incorrect_mean_logp": -1.4663364955357143,
+      "separation": 0.5202488490513393
+    },
+    "0.75": {
+      "correct_mean_logp": -0.6233367919921875,
+      "incorrect_mean_logp": -1.68343505859375,
+      "separation": 1.0600982666015626
+    }
+  }
+}

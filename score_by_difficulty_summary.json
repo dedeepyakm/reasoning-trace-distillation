@@ -1,0 +1,77 @@
+{
+  "Easy/prefix75": {
+    "correct_mean_logp": -0.51818359375,
+    "incorrect_mean_logp": -0.3739420572916667,
+    "separation": -0.14424153645833332
+  },
+  "Easy/middle75": {
+    "correct_mean_logp": -0.176103515625,
+    "incorrect_mean_logp": -0.3592529296875,
+    "separation": 0.1831494140625
+  },
+  "Easy/suffix75_stripped": {
+    "correct_mean_logp": -0.82609375,
+    "incorrect_mean_logp": -0.4604085286458333,
+    "separation": -0.36568522135416665
+  },
+  "Easy/adaptive_cut": {
+    "correct_mean_logp": -0.165025634765625,
+    "incorrect_mean_logp": -0.4742431640625,
+    "separation": 0.30921752929687496
+  },
+  "Easy/full_original": {
+    "correct_mean_logp": -0.1169281005859375,
+    "incorrect_mean_logp": -0.5271097819010416,
+    "separation": 0.41018168131510413
+  },
+  "Medium/prefix75": {
+    "correct_mean_logp": -0.7210262522977942,
+    "incorrect_mean_logp": -0.9609375,
+    "separation": 0.23991124770220584
+  },
+  "Medium/middle75": {
+    "correct_mean_logp": -0.3649327895220588,
+    "incorrect_mean_logp": -0.913818359375,
+    "separation": 0.5488855698529411
+  },
+  "Medium/suffix75_stripped": {
+    "correct_mean_logp": -0.7292336856617647,
+    "incorrect_mean_logp": -1.216064453125,
+    "separation": 0.4868307674632353
+  },
+  "Medium/adaptive_cut": {
+    "correct_mean_logp": -0.23996510225183823,
+    "incorrect_mean_logp": -1.161865234375,
+    "separation": 0.9219001321231618
+  },
+  "Medium/full_original": {
+    "correct_mean_logp": -0.04976698931525735,
+    "incorrect_mean_logp": -1.241943359375,
+    "separation": 1.1921763700597428
+  },
+  "Hard/prefix75": {
+    "correct_mean_logp": -0.9821506076388888,
+    "incorrect_mean_logp": -1.384680706521739,
+    "separation": 0.4025300988828502
+  },
+  "Hard/middle75": {
+    "correct_mean_logp": -0.6403672960069444,
+    "incorrect_mean_logp": -1.3656589673913044,
+    "separation": 0.72529167138436
+  },
+  "Hard/suffix75_stripped": {
+    "correct_mean_logp": -1.4645182291666667,
+    "incorrect_mean_logp": -1.7625254755434783,
+    "separation": 0.29800724637681153
+  },
+  "Hard/adaptive_cut": {
+    "correct_mean_logp": -0.3097974989149306,
+    "incorrect_mean_logp": -1.8363620923913044,
+    "separation": 1.5265645934763739
+  },
+  "Hard/full_original": {
+    "correct_mean_logp": -0.1074066162109375,
+    "incorrect_mean_logp": -2.1143002717391304,
+    "separation": 2.006893655528193
+  }
+}
