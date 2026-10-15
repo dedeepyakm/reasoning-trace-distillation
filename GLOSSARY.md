@@ -198,3 +198,21 @@ All position-bucket, compression, and scoring statistics can be (and in the
 "this week" results, are) broken out by tier, to test whether a pattern
 found on the full dataset is being driven mostly by the easy problems or
 genuinely holds on hard ones too.
+
+
+---
+
+## Update 2026-10-14: definitions that changed
+
+The sections above describe the original (gold-based) logic. The Oct-14 audit changed these:
+
+- **"correct" / "incorrect"** is now recomputed by `common/answer_matching.answers_match`: degrees, `%`, `\\text{}`, `\\dfrac`, thousands
+  commas and trailing units are ignored; a sentence-style fallback answer counts as correct if it contains the gold value.
+- **"explicit mention"** now needs clean digit boundaries AND a result cue ("=", "is", "answer", "has"...) right before a numeric
+  answer, so numbers that are merely listed or copied from the problem do not count.
+- **The cut point** is now the first sentence stating the **model's own final answer** (gold-free), skipping the opening
+  sentences (at least 3, or 10% of the trace) and any sentence that mostly re-quotes the problem. For a correct trace this is the
+  gold; for an incorrect trace it is the model's wrong answer. This removes the circularity in the old "never explicit" bucket.
+- **"never_explicit"** therefore now means: the model's own final answer is never stated as a result before the end/anywhere in the
+  reasoning text (or no answer was extracted). It is no longer a proxy for being wrong.
+- Known remaining weakness: a coincidental intermediate equal to the final answer can still trigger the cut.

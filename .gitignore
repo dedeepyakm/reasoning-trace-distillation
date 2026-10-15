@@ -1,6 +1,11 @@
-*.jsonl 
-*.png 
-*.pptx 
-k_extension_results/ 
-__pycache__/ 
-.venv/ 
+*.jsonl
+*.pptx
+*.json
+__pycache__/
+*.pyc
+.venv/
+k_extension_results/
+data/
+_old_root/
+*.zip
+*.png

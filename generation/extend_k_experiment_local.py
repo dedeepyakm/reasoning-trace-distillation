@@ -169,7 +169,7 @@ def main(role: str):
                     top_p=TOP_P,
                     pad_token_id=tokenizer.eos_token_id,
                 )
-                text = tokenizer.decode(
+            text = tokenizer.decode(
                 output[0][input_ids.shape[1]:], skip_special_tokens=True
             )
             completions.append(text)
