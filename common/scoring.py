@@ -26,13 +26,15 @@ def score_gold_answer_logprob(model, tokenizer, problem, prefix_text, gold_answe
     if full_ids.shape[1] <= prompt_ids.shape[1]:
         return None
 
-    outputs = model(full_ids)
-    logits = outputs.logits[0]
-    log_probs = torch.log_softmax(logits, dim=-1)
-
     start = prompt_ids.shape[1]
+    n_t = full_ids.shape[1] - start            # number of answer tokens
     target_token_ids = full_ids[0, start:]
-    relevant_log_probs = log_probs[start - 1 : full_ids.shape[1] - 1]
+    try:
+        # Only the last n_t+1 positions are needed: much less memory on long traces.
+        logits = model(full_ids, logits_to_keep=n_t + 1).logits[0][:n_t]
+    except TypeError:                          # older transformers: compute all positions
+        logits = model(full_ids).logits[0][start - 1 : full_ids.shape[1] - 1]
+    relevant_log_probs = torch.log_softmax(logits.float(), dim=-1)
     token_logps = relevant_log_probs.gather(1, target_token_ids.unsqueeze(1)).squeeze(1)
     return token_logps.mean().item()
 

@@ -9,7 +9,7 @@ student more efficiently. Frame: **identify -> compress -> transfer**.
 
 Code only. Trace files, figures and slides are not in this repo.
 
-**Start here:** [`STATUS.md`](STATUS.md) (done / left) - [`RESULTS.md`](RESULTS.md) (every number, with validity status) -
+**Start here:** [`STATUS.md`](STATUS.md) (done / left / how to resume) - [`RESULTS.md`](RESULTS.md) (every number, with validity status) -
 [`GLOSSARY.md`](GLOSSARY.md) (what our project terms mean in code).
 
 ## Layout

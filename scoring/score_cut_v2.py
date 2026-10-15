@@ -45,20 +45,29 @@ def main(a):
     model = AutoModelForCausalLM.from_pretrained(STUDENT_MODEL, dtype=torch.bfloat16).to(dev).eval()
     m500 = load_math500_lookup()
 
+    skipped = {"correct": 0, "incorrect": 0}
     res = {"cut": {"correct": [], "incorrect": []}, "full": {"correct": [], "incorrect": []}}
     for label, rows in groups.items():
         for i, c in enumerate(rows):
             prob = get_problem_text(m500, c["id"])
             if not prob:
                 continue
-            lc = score_gold_answer_logprob(model, tok, prob, c["adaptive_truncated_text"], c["answer"], dev)
-            lf = score_gold_answer_logprob(model, tok, prob, full[(c["id"], c.get("sample_idx"))], c["answer"], dev)
+            try:
+                lc = score_gold_answer_logprob(model, tok, prob, c["adaptive_truncated_text"], c["answer"], dev)
+                lf = score_gold_answer_logprob(model, tok, prob, full[(c["id"], c.get("sample_idx"))], c["answer"], dev)
+            except RuntimeError as e:          # CUDA out of memory on a very long trace: skip the PAIR
+                if "out of memory" not in str(e).lower():
+                    raise
+                skipped[label] += 1
+                torch.cuda.empty_cache()
+                continue
             if lc is not None and lf is not None:
                 res["cut"][label].append(lc)
                 res["full"][label].append(lf)
             if (i + 1) % 20 == 0:
                 print(f"  [{label}] {i + 1}/{len(rows)}")
 
+    print(f"\nSkipped (out of memory): correct={skipped['correct']} incorrect={skipped['incorrect']}")
     print("\nVariant | mean logp correct | mean logp incorrect | separation")
     out = {}
     for v in ["cut", "full"]:

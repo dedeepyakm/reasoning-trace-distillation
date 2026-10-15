@@ -14,8 +14,8 @@ from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from common.answer_matching import (  # noqa: E402
-    answers_match, cut_target, is_restatement, normalize_for_search,
-    sentence_mentions_answer, split_sentences, strip_wrappers,
+    answers_match, cut_target, multi_boxed_match, is_commit_sentence, is_restatement, normalize_for_search,
+    split_sentences, strip_wrappers,
 )
 
 TIER_NAMES = {1: "Easy", 2: "Easy", 3: "Medium", 4: "Hard", 5: "Hard"}
@@ -38,6 +38,19 @@ def pct(a, b):
     return 100.0 * a / b if b else 0.0
 
 
+_PROBLEMS = None
+
+
+def problem_text(rid):
+    """MATH-500 problem text from the row id (instruct traces store no problem field)."""
+    global _PROBLEMS
+    if _PROBLEMS is None:
+        from datasets import load_dataset
+        _PROBLEMS = load_dataset("HuggingFaceH4/MATH-500", split="test")
+    m = re.search(r"(\d+)$", rid or "")
+    return _PROBLEMS[int(m.group(1))]["problem"] if m else ""
+
+
 def main(trace_file, out_path, with_difficulty):
     levels = load_level_lookup() if with_difficulty else None
     rows_out = []
@@ -58,7 +71,8 @@ def main(trace_file, out_path, with_difficulty):
                 continue
             correct = bool(r.get("correct"))
             if "predicted_answer" in r:
-                new = answers_match(r["predicted_answer"], gold, r.get("extraction_method"))
+                new = answers_match(r["predicted_answer"], gold, r.get("extraction_method")) \
+                    or multi_boxed_match(text, gold)
                 n_relabelled += 1
                 if new and not correct:
                     flips_up += 1
@@ -84,12 +98,12 @@ def main(trace_file, out_path, with_difficulty):
             idx = None
             if sents and target is not None:
                 ng = normalize_for_search(strip_wrappers(target))
-                prob = r.get("problem", "")
+                prob = r.get("problem") or problem_text(rid)
                 warmup = max(3, len(sents) // 10)
                 for i, sn in enumerate(sents):
                     if i < warmup or is_restatement(sn, prob):
                         continue
-                    if sentence_mentions_answer(normalize_for_search(sn), ng):
+                    if is_commit_sentence(sn, ng, prob):
                         idx = i
                         break
             if idx is None:
