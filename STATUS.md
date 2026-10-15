@@ -5,7 +5,7 @@ Everything so far measures a **proxy** (student log-prob of the gold answer give
 traces in this repo yet.
 
 ## Done
-- Trace generation: instruct teacher k=5 (50 -> 100 problems), k=8 extension (50 problems), student pass@1..8, reasoning teacher v2 (232 clean traces, 50 problems).
+- Trace generation: instruct teacher k=5 (50 -> 100 problems), k=8 extension (50 problems), student pass@1..8, reasoning teacher v2 (232 clean traces, 49 problems; NOT the same problems as the instruct set, only 5 overlap).
 - Truncation diagnosis/fix for the reasoning teacher (3072 -> 8192 tokens, exact `hit_token_limit`).
 - Measurement audit (Oct 14-15): relabelling, boundary-aware and cue-aware matching, gold-free cut, memory-safe scoring. See RESULTS.md.
 - First valid comparison (RESULTS.md B-D): reasoning-teacher traces are far more compressible (56% of words kept) and cut traces keep most of the signal (92-94%) for both teachers.
@@ -46,3 +46,9 @@ Working rules: see README.md (quote only VALID numbers; matching logic only in `
 ## Open questions
 - Is "first statement of the final answer" the right commitment point for a backtracking reasoner? (Audit C: 90% clean, 10% accidental.)
 - Does the signal-retention proxy predict real fine-tuning gains? Only item 5 answers this.
+
+
+## Open items (added Oct 15)
+- Run the reasoning teacher on the instruct problem set (or vice versa) for a true like-for-like comparison.
+- Regenerate the 18 truncated reasoning traces at a larger token limit (problem 43 is fully missing).
+- Confirm the 3 non-clean cuts in the reasoning audit; audit 30 instruct cuts.

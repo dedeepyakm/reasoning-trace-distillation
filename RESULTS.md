@@ -34,7 +34,9 @@ Label changes were checked by eye with `diagnostics/show_relabelled.py`: reasoni
 | v2 (8192 tokens + fallback extractor) | 26/250 hit the token limit (10.4%); 18 of those have no extractable answer (7.2%) and were DROPPED -> 232 clean traces | VALID (generation facts) |
 | v2 "74.8% accuracy", "73.7% early", "45.4% words kept", "9% retention" | from sentence-capturing extractor / substring matcher / gold-based cut | INVALID |
 
-## B. Final comparison on the same 50 problems, k=5 (`analysis/analyze_traces_v3.py --with-difficulty`)
+## B. Comparison of the two teachers, k=5, on DIFFERENT problem sets (`analysis/analyze_traces_v3.py --with-difficulty`)
+
+The two sets overlap on only 5 problems (`diagnostics/compare_problem_sets.py`): reasoning = 49 problems (MATH-500 indices 0-49), instruct = 50 problems (45 not in the reasoning set). Difficulty mix is similar (instruct 20 Easy / 10 Medium / 20 Hard; reasoning 17 / 12 / 20), but the accuracy gap is NOT a like-for-like teacher comparison. On the 5 shared problems accuracy is about equal (instruct 20/25 = 80.0%, reasoning 19/23 = 82.6%), but that is far too small to conclude anything.
 
 | | Reasoning teacher (n=232) | Instruct teacher, Qwen2.5-7B-Instruct (n=250) |
 |---|---|---|
@@ -44,7 +46,8 @@ Label changes were checked by eye with `diagnostics/show_relabelled.py`: reasoni
 | Words kept after the cut: correct traces | 56.2% (N=189) | 92.5% (N=132) |
 | Words kept after the cut: incorrect traces | 61.4% (N=14) | 87.7% (N=42) |
 
-Caveats: (1) the reasoning accuracy excludes the 18 truncated traces with no answer; counting them as wrong gives 216/250 = 86.4%.
+Caveats: (0) different problem sets (above); the reasoning set also loses its hardest problems to truncation: the 18 dropped traces fall in 8 problems and problem 43 has all 5 traces dropped.
+(1) the reasoning accuracy excludes the 18 truncated traces with no answer; counting them as wrong gives 216/250 = 86.4%.
 (2) Only 14 reasoning incorrect traces have a cut point, so the correct-vs-incorrect words-kept gap is not a finding.
 (3) Instruct, Hard, answer stated early: 2 correct / 12 incorrect (n=14) - suggestive only.
 
