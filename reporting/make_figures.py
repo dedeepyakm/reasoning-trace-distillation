@@ -42,7 +42,7 @@ def load(path):
 
 def stamp(fig, source, extra=""):
     fig.text(0.01, 0.005, "source: {}   script: {}   {}".format(source, SCRIPT, extra),
-             fontsize=7, color="#666666")
+             fontsize=6, color="#666666")
 
 
 def fig_accuracy_by_tier(rows, label, source, outdir):
@@ -164,7 +164,7 @@ def fig_retention(score_path, label, outdir):
     ax.set_ylabel("separation = mean logp(correct) - mean logp(incorrect)")
     ax.set_title("{}: retention {:.1f}% ({} correct / {} incorrect scored)".format(label, retention, nc, ni),
                  fontsize=10)
-    stamp(fig, score_path, "retention = cut / full; no interval in file")
+    stamp(fig, score_path, "retention = cut / full")
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     fig.savefig(os.path.join(outdir, "{}_retention.png".format(label)), dpi=160)
     plt.close(fig)

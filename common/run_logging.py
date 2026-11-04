@@ -37,6 +37,12 @@ def log_result(label, metric, value, source_file, script, notes=""):
     """Append one number to logs/RESULT_LOG.csv. Every number needs its source file and script."""
     os.makedirs(LOG_DIR, exist_ok=True)
     new = not os.path.exists(RESULT_CSV)
+    if not new:
+        key = (str(label), str(metric), str(value), str(source_file))
+        with open(RESULT_CSV, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if (r["label"], r["metric"], r["value"], r["source_file"]) == key:
+                    return
     with open(RESULT_CSV, "a", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=RESULT_FIELDS)
         if new:
