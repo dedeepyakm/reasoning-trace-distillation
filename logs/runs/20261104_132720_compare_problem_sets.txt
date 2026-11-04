@@ -1,0 +1,11 @@
+$ python diagnostics/compare_problem_sets.py --a data/cut_instruct_final.jsonl --b data/cut_reasoning_final.jsonl
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+A = data/cut_instruct_final.jsonl: 50 problems   B = data/cut_reasoning_final.jsonl: 49 problems
+Overlap: 5 problems   A only: 45   B only: 44
+  difficulty mix of A (problems): {'Medium': 10, 'Easy': 20, 'Hard': 20}
+  difficulty mix of B (problems): {'Easy': 17, 'Hard': 20, 'Medium': 12}
+  accuracy of A on the overlap: 20/25 = 80.0%
+  accuracy of B on the overlap: 19/23 = 82.6%
+
+[exit code 0]

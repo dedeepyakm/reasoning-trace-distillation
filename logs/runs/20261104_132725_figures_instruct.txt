@@ -1,0 +1,18 @@
+$ python reporting/make_figures.py --cut-file data/cut_instruct_final.jsonl --label instruct --outdir data/figures --score-file data/score_instruct_final.json
+
+Loaded 250 traces from data/cut_instruct_final.jsonl
+Keys found in data/score_instruct_final.json:
+  cut/correct = -0.17954950706722836
+  cut/incorrect = -1.9153849789251884
+  cut/separation = 1.73583547185796
+  cut/n_correct = 60
+  cut/n_incorrect = 60
+  full/correct = -0.16215156087030966
+  full/incorrect = -2.019161562373241
+  full/separation = 1.8570100015029312
+  full/n_correct = 60
+  full/n_incorrect = 60
+No retention value found in the score file; retention figure skipped (nothing invented).
+Figures saved in data/figures
+
+[exit code 0]

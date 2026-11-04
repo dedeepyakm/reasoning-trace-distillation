@@ -1,0 +1,36 @@
+$ python reporting/make_figures.py --cut-file data/cut_reasoning_final.jsonl --label reasoning --outdir data/figures --score-file data/score_reasoning_final.json
+
+Loaded 232 traces from data/cut_reasoning_final.jsonl
+Traceback (most recent call last):
+  File "/content/repo/reporting/make_figures.py", line 195, in <module>
+    main()
+    ~~~~^^
+  File "/content/repo/reporting/make_figures.py", line 186, in main
+    fig_accuracy_by_tier(rows, a.label, a.cut_file, a.outdir)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/repo/reporting/make_figures.py", line 58, in fig_accuracy_by_tier
+    ax.bar(i, 100 * k / n, color=NEUTRAL, yerr=[[100 * k / n - 100 * lo], [100 * hi - 100 * k / n]],
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           capsize=4)
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/matplotlib/__init__.py", line 1521, in inner
+    return func(
+        ax,
+        *map(cbook.sanitize_sequence, args),
+        **{k: cbook.sanitize_sequence(v) for k, v in kwargs.items()})
+  File "/usr/local/lib/python3.13/dist-packages/matplotlib/axes/_axes.py", line 2665, in bar
+    errorbar = self.errorbar(ex, ey, yerr=yerr, xerr=xerr, fmt='none',
+                             **error_kw)
+  File "/usr/local/lib/python3.13/dist-packages/matplotlib/_api/deprecation.py", line 453, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/matplotlib/__init__.py", line 1521, in inner
+    return func(
+        ax,
+        *map(cbook.sanitize_sequence, args),
+        **{k: cbook.sanitize_sequence(v) for k, v in kwargs.items()})
+  File "/usr/local/lib/python3.13/dist-packages/matplotlib/axes/_axes.py", line 3797, in errorbar
+    raise ValueError(
+        f"'{dep_axis}err' must not contain negative values")
+ValueError: 'yerr' must not contain negative values
+
+[exit code 1]
