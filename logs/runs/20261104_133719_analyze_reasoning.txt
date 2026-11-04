@@ -1,0 +1,37 @@
+$ python analysis/analyze_traces_v3.py --trace-file data/traces_reasoning_teacher_k5_v2_clean.jsonl --out data/cut_reasoning_final.jsonl --with-difficulty
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Generating test split:   0%|          | 0/500 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 500/500 [00:00<00:00, 13926.51 examples/s]
+Analyzed 232 traces from data/traces_reasoning_teacher_k5_v2_clean.jsonl
+Correctness recomputed for 232 traces: 29 incorrect->correct, 0 correct->incorrect
+
+ACCURACY (trace level)
+  Easy     81/83 = 97.6%
+  Medium   58/58 = 100.0%
+  Hard     77/91 = 84.6%
+
+ANSWER POSITION (first real statement of the MODEL'S OWN final answer, gold-free)
+  Tier    Bucket             Correct Incorrect  Total  %Correct
+  Easy    early_or_middle         67         2     69     97.1%
+  Easy    last_two                 1         0      1    100.0%
+  Easy    never_explicit          13         0     13    100.0%
+  Medium  early_or_middle         44         0     44    100.0%
+  Medium  last_two                 9         0      9    100.0%
+  Medium  never_explicit           5         0      5    100.0%
+  Hard    early_or_middle         60         8     68     88.2%
+  Hard    last_two                 8         4     12     66.7%
+  Hard    never_explicit           9         2     11     81.8%
+  ALL     early_or_middle        171        10    181     94.5%
+  ALL     last_two                18         4     22     81.8%
+  ALL     never_explicit          27         2     29     93.1%
+
+ADAPTIVE CUT: average % of words kept (traces with a real cut point only)
+  correct    N=189  56.2% kept
+  incorrect  N=14   61.4% kept
+
+Never-explicit traces (kept in full, excluded above): correct=27 incorrect=2
+Cut traces saved to data/cut_reasoning_final.jsonl
+
+[exit code 0]

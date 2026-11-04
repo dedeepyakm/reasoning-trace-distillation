@@ -26,3 +26,21 @@ timestamp,label,metric,value,source_file,script,git_commit,notes
 2026-11-04 13:36,instruct,words_kept_correct,92.5% (N=132),data/cut_instruct_final.jsonl,reporting/make_figures.py,1d41b70,
 2026-11-04 13:36,instruct,words_kept_incorrect,87.7% (N=42),data/cut_instruct_final.jsonl,reporting/make_figures.py,1d41b70,
 2026-11-04 13:36,instruct,retention,93.5%,data/score_instruct_final.json,reporting/make_figures.py,1d41b70,cut sep 1.736 vs full sep 1.857; scored 60 correct / 60 incorrect
+2026-11-04 13:37,reasoning,accuracy_Easy,81/83 = 97.6%,data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,accuracy_Medium,58/58 = 100.0%,data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,accuracy_Hard,77/91 = 84.6%,data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,position_before_last_two,n=181 correct=171 incorrect=10,data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,position_last_two_sentences,n=22 correct=18 incorrect=4,data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,position_never_explicit,n=29 correct=27 incorrect=2,data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,words_kept_correct,56.2% (N=189),data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,words_kept_incorrect,61.4% (N=14),data/cut_reasoning_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,reasoning,retention,91.6%,data/score_reasoning_final.json,reporting/make_figures.py,fce8b2b,cut sep 1.476 vs full sep 1.611; scored 60 correct / 16 incorrect
+2026-11-04 13:37,instruct,accuracy_Easy,96/100 = 96.0%,data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,accuracy_Medium,38/50 = 76.0%,data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,accuracy_Hard,50/100 = 50.0%,data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,position_before_last_two,n=35 correct=20 incorrect=15,data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,position_last_two_sentences,n=139 correct=112 incorrect=27,data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,position_never_explicit,n=76 correct=52 incorrect=24,data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,words_kept_correct,92.5% (N=132),data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,words_kept_incorrect,87.7% (N=42),data/cut_instruct_final.jsonl,reporting/make_figures.py,fce8b2b,
+2026-11-04 13:37,instruct,retention,93.5%,data/score_instruct_final.json,reporting/make_figures.py,fce8b2b,cut sep 1.736 vs full sep 1.857; scored 60 correct / 60 incorrect

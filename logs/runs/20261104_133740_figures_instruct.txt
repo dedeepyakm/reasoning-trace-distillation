@@ -1,0 +1,6 @@
+$ python reporting/make_figures.py --cut-file data/cut_instruct_final.jsonl --label instruct --outdir data/figures --score-file data/score_instruct_final.json
+
+Loaded 250 traces from data/cut_instruct_final.jsonl
+Figures saved in data/figures
+
+[exit code 0]
