@@ -55,7 +55,7 @@ def fig_accuracy_by_tier(rows, label, source, outdir):
         rs = [r for r in rows if r.get("difficulty_tier") == t]
         k, n = sum(bool(r["correct"]) for r in rs), len(rs)
         lo, hi = wilson(k, n)
-        ax.bar(i, 100 * k / n, color=NEUTRAL, yerr=[[100 * k / n - 100 * lo], [100 * hi - 100 * k / n]],
+        ax.bar(i, 100 * k / n, color=NEUTRAL, yerr=[[max(0.0, 100 * k / n - 100 * lo)], [max(0.0, 100 * hi - 100 * k / n)]],
                capsize=4)
         ax.text(i, 3, "{}/{}".format(k, n), ha="center", color="white", fontsize=9)
         log_result(label, "accuracy_" + t, "{}/{} = {:.1f}%".format(k, n, 100 * k / n), source, SCRIPT)
@@ -140,37 +140,36 @@ def flatten(d, prefix=""):
 
 
 def fig_retention(score_path, label, outdir):
+    """Retention = cut separation / full separation, computed here from the score file.
+    The score file has no bootstrap interval, so none is drawn (the interval printed by the
+    scoring script is in the run log)."""
     with open(score_path, encoding="utf-8") as f:
         flat = flatten(json.load(f))
-    print("Keys found in {}:".format(score_path))
-    for k, v in flat.items():
-        print("  {} = {}".format(k, v))
-    ret = [(k, v) for k, v in flat.items() if "retention" in k.lower() and isinstance(v, (int, float))]
-    lo = [v for k, v in flat.items() if isinstance(v, (int, float)) and
-          any(s in k.lower() for s in ("low", "lo_", "ci_l", "_lo")) and "ret" in k.lower()]
-    hi = [v for k, v in flat.items() if isinstance(v, (int, float)) and
-          any(s in k.lower() for s in ("high", "hi_", "ci_h", "_hi")) and "ret" in k.lower()]
-    if not ret:
-        print("No retention value found in the score file; retention figure skipped (nothing invented).")
+    need = ["cut/separation", "full/separation", "cut/n_correct", "cut/n_incorrect"]
+    missing = [k for k in need if k not in flat]
+    if missing:
+        print("Score file {} lacks {}; retention figure skipped (nothing invented).".format(score_path, missing))
+        print("Keys found: {}".format(list(flat)))
         return
-    val = ret[0][1]
-    scale = 100 if val <= 3 else 1
-    fig, ax = plt.subplots(figsize=(5.5, 3))
-    ax.barh([0], [val * scale], color=NEUTRAL)
-    if lo and hi:
-        ax.errorbar([val * scale], [0], xerr=[[val * scale - lo[0] * scale], [hi[0] * scale - val * scale]],
-                    color="black", capsize=5)
-    ax.axvline(100, color="#888888", linestyle="--")
-    ax.set_yticks([])
-    ax.set_xlabel("signal retention (% of full-trace separation)")
-    ax.set_title("{}: retention after the cut".format(label))
-    ax.text(val * scale, 0.35, "{:.1f}%".format(val * scale), ha="center", fontsize=10)
-    stamp(fig, score_path)
+    cut, full = flat["cut/separation"], flat["full/separation"]
+    retention = 100 * cut / full
+    nc, ni = flat["cut/n_correct"], flat["cut/n_incorrect"]
+    fig, ax = plt.subplots(figsize=(5.5, 4))
+    ax.bar([0, 1], [full, cut], color=[NEUTRAL, GOOD])
+    for x, v in ((0, full), (1, cut)):
+        ax.text(x, v + 0.03 * full, "{:.3f}".format(v), ha="center", fontsize=10)
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels(["full trace", "cut trace"])
+    ax.set_ylim(0, full * 1.2)
+    ax.set_ylabel("separation = mean logp(correct) - mean logp(incorrect)")
+    ax.set_title("{}: retention {:.1f}% ({} correct / {} incorrect scored)".format(label, retention, nc, ni),
+                 fontsize=10)
+    stamp(fig, score_path, "retention = cut / full; no interval in file")
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     fig.savefig(os.path.join(outdir, "{}_retention.png".format(label)), dpi=160)
     plt.close(fig)
-    log_result(label, "retention", "{:.1f}%".format(val * scale), score_path, SCRIPT,
-               "interval " + ("{:.0f}-{:.0f}%".format(lo[0] * scale, hi[0] * scale) if lo and hi else "not found"))
+    log_result(label, "retention", "{:.1f}%".format(retention), score_path, SCRIPT,
+               "cut sep {:.3f} vs full sep {:.3f}; scored {} correct / {} incorrect".format(cut, full, nc, ni))
 
 
 def main():
