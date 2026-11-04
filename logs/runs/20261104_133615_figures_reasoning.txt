@@ -1,0 +1,6 @@
+$ python reporting/make_figures.py --cut-file data/cut_reasoning_final.jsonl --label reasoning --outdir data/figures --score-file data/score_reasoning_final.json
+
+Loaded 232 traces from data/cut_reasoning_final.jsonl
+Figures saved in data/figures
+
+[exit code 0]
