@@ -61,14 +61,25 @@ def done_samples(out_path):
     return done
 
 
-def load_model(precision):
+def pick_dtype(name):
+    """bf16 needs an Ampere-or-newer GPU (L4, A100, RTX 5070). The T4 has no native bf16, so use fp16 there."""
+    if name == "bf16":
+        return torch.bfloat16
+    if name == "fp16":
+        return torch.float16
+    if torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8:
+        return torch.bfloat16
+    return torch.float16
+
+
+def load_model(precision, dtype):
     tok = AutoTokenizer.from_pretrained(v2.MODEL_NAME)
     if precision == "4bit":
         cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
-                                 bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True)
+                                 bnb_4bit_compute_dtype=dtype, bnb_4bit_use_double_quant=True)
         model = AutoModelForCausalLM.from_pretrained(v2.MODEL_NAME, quantization_config=cfg, device_map="auto")
     else:
-        model = AutoModelForCausalLM.from_pretrained(v2.MODEL_NAME, torch_dtype=torch.bfloat16, device_map="auto")
+        model = AutoModelForCausalLM.from_pretrained(v2.MODEL_NAME, torch_dtype=dtype, device_map="auto")
     model.eval()
     return tok, model
 
@@ -121,8 +132,10 @@ def main(a):
         print("Nothing to do.")
         return
 
-    print("Loading {} ({}) ...".format(v2.MODEL_LABEL, a.precision))
-    tok, model = load_model(a.precision)
+    dtype = pick_dtype(a.compute_dtype)
+    dtype_name = "bf16" if dtype == torch.bfloat16 else "fp16"
+    print("Loading {} ({}, compute {}) ...".format(v2.MODEL_LABEL, a.precision, dtype_name))
+    tok, model = load_model(a.precision, dtype)
     dataset = load_dataset("HuggingFaceH4/MATH-500", split="test")
 
     n_total = n_hit = n_noans = 0
@@ -150,7 +163,7 @@ def main(a):
                     "reasoning_text": v2.strip_think_tags(text), "answer": gold,
                     "predicted_answer": answer, "extraction_method": method, "correct": correct,
                     "hit_token_limit": hit, "n_generated_tokens": n_tok, "model": v2.MODEL_LABEL,
-                    "sample_idx": s, "precision": a.precision, "run": "matched"}) + "\n")
+                    "sample_idx": s, "precision": a.precision, "compute_dtype": dtype_name, "run": "matched"}) + "\n")
                 n_total += 1
                 n_hit += int(hit)
                 n_noans += int(answer is None)
@@ -172,6 +185,8 @@ if __name__ == "__main__":
     ap.add_argument("--k", type=int, default=5)
     ap.add_argument("--max-new-tokens", type=int, default=16384)
     ap.add_argument("--precision", choices=["4bit", "bf16"], default="4bit")
+    ap.add_argument("--compute-dtype", choices=["auto", "bf16", "fp16"], default="auto",
+                    help="auto = bf16 on Ampere or newer, fp16 on a T4")
     ap.add_argument("--limit", type=int, default=0, help="only the first N problems (for a quick test)")
     args = ap.parse_args()
     if not args.problems_from and not args.indices:
