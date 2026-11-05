@@ -1,0 +1,6 @@
+$ python reporting/make_figures.py --cut-file data/cut_reasoning_matched.jsonl --label reasoning_matched --outdir data/figures
+
+Loaded 55 traces from data/cut_reasoning_matched.jsonl
+Figures saved in data/figures
+
+[exit code 0]

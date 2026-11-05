@@ -1,0 +1,8 @@
+timestamp,label,metric,value,source_file,script,git_commit,notes
+2026-11-05 01:48,reasoning_matched,accuracy_Easy,25/25 = 100.0%,data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,
+2026-11-05 01:48,reasoning_matched,accuracy_Medium,20/20 = 100.0%,data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,
+2026-11-05 01:48,reasoning_matched,accuracy_Hard,10/10 = 100.0%,data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,
+2026-11-05 01:48,reasoning_matched,position_before_last_two,n=43 correct=43 incorrect=0,data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,
+2026-11-05 01:48,reasoning_matched,position_last_two_sentences,n=3 correct=3 incorrect=0,data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,
+2026-11-05 01:48,reasoning_matched,position_never_explicit,n=9 correct=9 incorrect=0,data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,
+2026-11-05 01:48,reasoning_matched,words_kept_correct,44.3% (N=46),data/cut_reasoning_matched.jsonl,reporting/make_figures.py,15cde9a,

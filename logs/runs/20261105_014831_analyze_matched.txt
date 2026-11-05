@@ -1,0 +1,37 @@
+$ python analysis/analyze_traces_v3.py --trace-file data/traces_reasoning_matched_k5.jsonl --out data/cut_reasoning_matched.jsonl --with-difficulty
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Generating test split:   0%|          | 0/500 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 500/500 [00:00<00:00, 14007.07 examples/s]
+Analyzed 55 traces from data/traces_reasoning_matched_k5.jsonl
+Correctness recomputed for 55 traces: 6 incorrect->correct, 0 correct->incorrect
+
+ACCURACY (trace level)
+  Easy     25/25 = 100.0%
+  Medium   20/20 = 100.0%
+  Hard     10/10 = 100.0%
+
+ANSWER POSITION (first real statement of the MODEL'S OWN final answer, gold-free)
+  Tier    Bucket             Correct Incorrect  Total  %Correct
+  Easy    early_or_middle         21         0     21    100.0%
+  Easy    last_two                 0         0      0      0.0%
+  Easy    never_explicit           4         0      4    100.0%
+  Medium  early_or_middle         15         0     15    100.0%
+  Medium  last_two                 0         0      0      0.0%
+  Medium  never_explicit           5         0      5    100.0%
+  Hard    early_or_middle          7         0      7    100.0%
+  Hard    last_two                 3         0      3    100.0%
+  Hard    never_explicit           0         0      0      0.0%
+  ALL     early_or_middle         43         0     43    100.0%
+  ALL     last_two                 3         0      3    100.0%
+  ALL     never_explicit           9         0      9    100.0%
+
+ADAPTIVE CUT: average % of words kept (traces with a real cut point only)
+  correct    N=46   44.3% kept
+  incorrect  N=0    0.0% kept
+
+Never-explicit traces (kept in full, excluded above): correct=9 incorrect=0
+Cut traces saved to data/cut_reasoning_matched.jsonl
+
+[exit code 0]
